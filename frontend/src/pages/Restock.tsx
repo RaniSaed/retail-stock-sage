@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -128,4 +127,4 @@ const RestockPage: React.FC = () => {
   );
 };
 
-export default RestockPage;
+export default RestockPage;

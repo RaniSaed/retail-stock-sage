@@ -1,4 +1,3 @@
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import { mockProducts, mockRestockLogs } from "@/mockData";
@@ -59,6 +58,6 @@ export function useRestock() {
       queryClient.invalidateQueries({ queryKey: ["recentRestocks"] });
       queryClient.invalidateQueries({ queryKey: ["dashboardSummary"] });
       queryClient.invalidateQueries({ queryKey: ["productAnalytics"] });
-    },
-  });
+    },
+  });
 }

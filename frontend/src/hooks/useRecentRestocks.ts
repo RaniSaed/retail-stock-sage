@@ -1,4 +1,3 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { RestockLog } from "@/types";
 import { mockRestockLogs } from "@/mockData";
@@ -22,5 +21,6 @@ export function useRecentRestocks() {
   return useQuery({
     queryKey: ["recentRestocks"],
     queryFn: fetchRecentRestocks,
-  });
+  });
 }
+

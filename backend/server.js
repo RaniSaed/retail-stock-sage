@@ -13,6 +13,12 @@ app.get('/api/products', (req, res) => {
   res.json(products);
 });
 
+// GET route to fetch products with low stock
+app.get('/api/products/low-stock', (req, res) => {
+  const lowStockProducts = products.filter(p => p.stock <= 10);
+  res.json(lowStockProducts);
+});
+
 // POST route to add a new product
 app.post('/api/products', (req, res) => {
   const newProduct = req.body;

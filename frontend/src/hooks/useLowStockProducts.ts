@@ -5,16 +5,13 @@ import { mockProducts } from "@/mockData";
 
 // In a real app, this would fetch from your API
 const fetchLowStockProducts = async (): Promise<Product[]> => {
-  // Simulate API call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const lowStockProducts = mockProducts.filter(
-        (product) => product.stock <= product.lowStockThreshold
-      );
-      resolve(lowStockProducts);
-    }, 500);
-  });
+  const response = await fetch("http://localhost:5000/api/products/low-stock");
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
 };
+
 
 export function useLowStockProducts() {
   return useQuery({
