@@ -1,4 +1,3 @@
-
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -34,7 +33,7 @@ const formSchema = z.object({
   cost: z.coerce.number().positive({
     message: "Cost must be positive.",
   }),
-  stock: z.coerce.number().nonnegative({
+  stock_level: z.coerce.number().nonnegative({
     message: "Stock must be positive or zero.",
   }),
   lowStockThreshold: z.coerce.number().positive({
@@ -56,7 +55,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: product 
+    defaultValues: product
       ? { ...product }
       : {
           name: "",
@@ -64,7 +63,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
           category: "",
           price: 0,
           cost: 0,
-          stock: 0,
+          stock_level: 0,
           lowStockThreshold: 10,
           description: "",
         },
@@ -75,8 +74,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
       await onSubmit(values);
       toast({
         title: product ? "Product updated" : "Product created",
-        description: product 
-          ? "The product has been updated successfully." 
+        description: product
+          ? "The product has been updated successfully."
           : "The product has been created successfully.",
       });
     } catch (error) {
@@ -170,7 +169,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
           <FormField
             control={form.control}
-            name="stock"
+            name="stock_level"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Current Stock</FormLabel>
@@ -219,8 +218,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
             Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting 
-              ? "Saving..." 
+            {isSubmitting
+              ? "Saving..."
               : product ? "Update Product" : "Create Product"}
           </Button>
         </div>
