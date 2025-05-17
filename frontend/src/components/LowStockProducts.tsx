@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -52,7 +53,7 @@ const LowStockProducts: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <span className="text-inventory-red font-medium">
-                    {product.stock_level} / {product.lowStockThreshold}
+                    {product.stock} / {product.lowStockThreshold}
                   </span>
                   <Button
                     variant="ghost"

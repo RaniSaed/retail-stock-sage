@@ -2,12 +2,13 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from models import db, Product, RestockLog
 from config import Config
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False  # מאפשר גישה גם עם וגם בלי סלש בסוף
 app.config.from_object(Config)
 
-# תיקון CORS - אפשר גישה מהפרונטאנד שלך בlocalhost:8080
+# אפשר גישה ל-CORS מהפרונטאנד שלך בlocalhost:8080
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:8080"}})
 
 db.init_app(app)
@@ -101,6 +102,28 @@ def low_stock_products():
 @app.route('/api/products/analytics', methods=['GET'])
 def stock_analytics():
     return jsonify({'message': 'Analytics data will be here.'}), 200
+
+
+# --- הוספת API חדש לסיכום Dashboard ---
+
+@app.route('/api/dashboard/summary', methods=['GET'])
+def dashboard_summary():
+    products = Product.query.all()
+    totalProducts = len(products)
+    totalValue = sum((p.price or 0) * (p.stock_level or 0) for p in products)
+    lowStockThreshold = 10
+    lowStockProducts = len([p for p in products if (p.stock_level or 0) < lowStockThreshold])
+
+    since = datetime.utcnow() - timedelta(days=1)
+    restocksPendingCount = RestockLog.query.filter(RestockLog.timestamp >= since).count()
+
+    return jsonify({
+        "totalProducts": totalProducts,
+        "totalValue": totalValue,
+        "lowStockProducts": lowStockProducts,
+        "restocksPending": restocksPendingCount
+    })
+
 
 if __name__ == '__main__':
     with app.app_context():

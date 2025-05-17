@@ -1,16 +1,12 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { DashboardSummary } from "@/types";
-import { mockDashboardSummary } from "@/mockData";
 
-// In a real app, this would fetch from your API
 const fetchDashboardSummary = async (): Promise<DashboardSummary> => {
-  // Simulate API call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockDashboardSummary);
-    }, 500);
-  });
+  const response = await fetch('http://localhost:5000/api/dashboard/summary');
+  if (!response.ok) {
+    throw new Error('Failed to fetch dashboard summary');
+  }
+  return response.json();
 };
 
 export function useDashboardSummary() {
